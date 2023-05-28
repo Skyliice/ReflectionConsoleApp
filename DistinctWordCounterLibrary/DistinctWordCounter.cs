@@ -8,9 +8,6 @@ public class DistinctWordCounter
     private Dictionary<string, int> GetWordsQuantity(string fileContent)
     {
         var finalDictionary = new Dictionary<string, int>();
-        fileContent = Regex.Replace(fileContent, "<[^>]+>", string.Empty);
-        fileContent = Regex.Replace(fileContent, "[^a-zA-Zа-яА-я'\\s]", string.Empty);
-        fileContent = Regex.Replace(fileContent, "[\n\t\r]", string.Empty);
         Console.WriteLine("Файл найден!\nИдет подсчёт слов...");
         var words = fileContent
             .Split(new[] { ",", ";", " " }, StringSplitOptions.RemoveEmptyEntries)
@@ -23,21 +20,24 @@ public class DistinctWordCounter
         return finalDictionary;
     }
     
-    public ConcurrentDictionary<string,int> GetWordsQuantityInParallel(string fileContent)
+    public ConcurrentDictionary<string,int> GetWordsQuantityInParallelWithPLinq(string fileContent)
     {
         var finalDictionary = new ConcurrentDictionary<string, int>();
-        fileContent = Regex.Replace(fileContent, "<[^>]+>", string.Empty);
-        fileContent = Regex.Replace(fileContent, "[^a-zA-Zа-яА-я'\\s]", string.Empty);
-        fileContent = Regex.Replace(fileContent, "[\n\t\r]", string.Empty);
-        Console.WriteLine("Файл найден!\nИдет подсчёт слов...");
         var words = fileContent
-            .Split(new[] { ",", ";", " " }, StringSplitOptions.RemoveEmptyEntries).AsParallel()
-            .GroupBy(o => o.ToLower())
-            .OrderByDescending(o => o.Count());
-        foreach (var word in words)
-        {
-            finalDictionary.TryAdd(word.Key,word.Count());
-        }
+            .Split(new[] { ",", ";", " " }, StringSplitOptions.RemoveEmptyEntries);
+        words.AsParallel()
+            .WithDegreeOfParallelism(4)
+            .ForAll(s => finalDictionary.AddOrUpdate(s.ToLower(), 1, (_, num) => num + 1));
+        return finalDictionary;
+    }
+
+    public ConcurrentDictionary<string, int> GetWordsQuantityInParallelWithParallelFor(string fileContent)
+    {
+        var finalDictionary = new ConcurrentDictionary<string, int>();
+        
+        var words = fileContent
+            .Split(new[] { ",", ";", " " }, StringSplitOptions.RemoveEmptyEntries);
+        Parallel.ForEach(words, (word) => finalDictionary.AddOrUpdate(word.ToLower(), 1, (_, num) => num + 1));
         return finalDictionary;
     }
 }

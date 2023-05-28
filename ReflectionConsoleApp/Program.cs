@@ -15,6 +15,9 @@ if (File.Exists(path))
     var type = assembly.GetType("DistinctWordCounterLibrary.DistinctWordCounter");
     var methodInfo = type.GetMethod("GetWordsQuantity",BindingFlags.NonPublic | BindingFlags.Instance);
     var instance = Activator.CreateInstance(type);
+    text = Regex.Replace(text, "<[^>]+>", string.Empty);
+    text = Regex.Replace(text, "[^a-zA-Zа-яА-я'\\s]", string.Empty);
+    text = Regex.Replace(text, "[\n\t\r]", string.Empty);
     Stopwatch stopwatch = new Stopwatch();
     stopwatch.Start();
     var resultDictionary = methodInfo.Invoke(instance, new object[] { text }) as Dictionary<string,int>;
@@ -22,9 +25,13 @@ if (File.Exists(path))
     time = $"Usual method: {stopwatch.Elapsed.Minutes}:{stopwatch.Elapsed.Seconds}:{stopwatch.Elapsed.Milliseconds}";
     var asyncInstance = new DistinctWordCounter();
     stopwatch.Restart();
-    var parallDict = asyncInstance.GetWordsQuantityInParallel(text);
+    var parallDict = asyncInstance.GetWordsQuantityInParallelWithPLinq(text);
     stopwatch.Stop();
     time = time + $"\tMethodInParallel: {stopwatch.Elapsed.Minutes}:{stopwatch.Elapsed.Seconds}:{stopwatch.Elapsed.Milliseconds}";
+    stopwatch.Restart();
+    var parallelForEachDict = asyncInstance.GetWordsQuantityInParallelWithParallelFor(text);
+    stopwatch.Stop();
+    time = time + $"\tMethodInParallelForEach: {stopwatch.Elapsed.Minutes}:{stopwatch.Elapsed.Seconds}:{stopwatch.Elapsed.Milliseconds}";
     Console.WriteLine(time);
     var curDir = new DirectoryInfo(Directory.GetCurrentDirectory());
     var finPath = curDir.FullName.Replace(curDir.Name, string.Empty) + $"{Path.GetFileName(path)
