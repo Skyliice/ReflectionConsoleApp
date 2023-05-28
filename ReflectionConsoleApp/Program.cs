@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using DistinctWordCounterLibrary;
 
 Console.Write("Введите путь к текстовому файлу (прим: C:\\Users\\Skylice\\Desktop\\voina.fb2): ");
@@ -18,12 +19,14 @@ if (File.Exists(path))
     text = Regex.Replace(text, "<[^>]+>", string.Empty);
     text = Regex.Replace(text, "[^a-zA-Zа-яА-я'\\s]", string.Empty);
     text = Regex.Replace(text, "[\n\t\r]", string.Empty);
+    // Запрос метода из первого задания
     Stopwatch stopwatch = new Stopwatch();
     stopwatch.Start();
     var resultDictionary = methodInfo.Invoke(instance, new object[] { text }) as Dictionary<string,int>;
     stopwatch.Stop();
     time = $"Usual method: {stopwatch.Elapsed.Minutes}:{stopwatch.Elapsed.Seconds}:{stopwatch.Elapsed.Milliseconds}";
     var asyncInstance = new DistinctWordCounter();
+    // Запрос методов, применяющих многопоточную обработку текста
     stopwatch.Restart();
     var parallDict = asyncInstance.GetWordsQuantityInParallelWithPLinq(text);
     stopwatch.Stop();
@@ -33,6 +36,19 @@ if (File.Exists(path))
     stopwatch.Stop();
     time = time + $"\tMethodInParallelForEach: {stopwatch.Elapsed.Minutes}:{stopwatch.Elapsed.Seconds}:{stopwatch.Elapsed.Milliseconds}";
     Console.WriteLine(time);
+    // Вызов запроса GET из WebAPIApp
+    HttpClient httpClient = new HttpClient();
+    var uriBuilder = new UriBuilder("https://localhost:44324/WordsQuantity");
+    var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+    query["fileContent"] = text;
+    uriBuilder.Query = query.ToString();
+    string url = uriBuilder.ToString();
+    var response = httpClient.GetAsync(url);
+    response.Wait();
+    if (response.Result.IsSuccessStatusCode)
+    {
+        Console.WriteLine($"Ответ на запрос GET от WebAPIApp:\n{Task.Run(() => response.Result.Content.ReadAsStringAsync()).Result}");
+    }
     var curDir = new DirectoryInfo(Directory.GetCurrentDirectory());
     var finPath = curDir.FullName.Replace(curDir.Name, string.Empty) + $"{Path.GetFileName(path)
         .Split(new[] { ".txt", ".fb2", ".docx", ".doc", ".rtf" }, StringSplitOptions.RemoveEmptyEntries)[0]}_words.txt";

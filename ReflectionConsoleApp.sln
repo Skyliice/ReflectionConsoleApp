@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReflectionConsoleApp", "Ref
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistinctWordCounterLibrary", "DistinctWordCounterLibrary\DistinctWordCounterLibrary.csproj", "{AB0AD279-F96E-4419-AD15-63243EA187B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPIApp", "WebAPIApp\WebAPIApp.csproj", "{51FD3E9F-5D87-4546-96FD-EEEC44552587}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{AB0AD279-F96E-4419-AD15-63243EA187B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB0AD279-F96E-4419-AD15-63243EA187B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB0AD279-F96E-4419-AD15-63243EA187B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51FD3E9F-5D87-4546-96FD-EEEC44552587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51FD3E9F-5D87-4546-96FD-EEEC44552587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51FD3E9F-5D87-4546-96FD-EEEC44552587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51FD3E9F-5D87-4546-96FD-EEEC44552587}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
