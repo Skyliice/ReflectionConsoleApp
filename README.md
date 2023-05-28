@@ -6,11 +6,11 @@
 В решении содержится консольное приложение, которое по указанному пользователем маршруту берет текстовый файл, и получает количество повторяющихся уникальных слов с помощью вызова приватного метода путем рефлексии из DistinctWordCounterLibrary.dll.
 
 ### Задание 2. 
-В ветке [Задание_Многопоточность] добавлен публичный метод GetWordsQuantityInParallel, отвечающий за параллельный подсчет слов. Скорость работы обоих методов предоставлена ниже.
+В ветке [Задание_Многопоточность] добавлены публичные методы GetWordsQuantityInParallelWithPLinq и GetWordsQuantityInParallelWithParallerFor, отвечающие за параллельный подсчет слов. Скорость работы этих методов предоставлена ниже.
 ### Результат работы программы:
 Задание 1
 
 ![Результат](https://github.com/Skyliice/DigitalDesign_TestTasks/blob/master/Screenshots/ConsoleAppScreenshot1.png)
 Задание 2.
 
-![Результат](https://github.com/Skyliice/ReflectionConsoleApp/blob/master/Images/Screenshot2.PNG)
+![Результат](https://github.com/Skyliice/ReflectionConsoleApp/blob/Задание_Многопоточность/Images/ScreenshotParallel.PNG)
