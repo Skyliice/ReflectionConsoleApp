@@ -7,10 +7,17 @@
 
 ### Задание 2. 
 В ветке [Задание_Многопоточность] добавлен публичный метод GetWordsQuantityInParallel, отвечающий за параллельный подсчет слов. Скорость работы обоих методов предоставлена ниже.
+
+### Задание 3.
+В ветке [Задание_ВебСервисы] добавлен проект ASP Net Core Web API WebAPIApp, в котором был добавлен публичный метод GET. Вызов данного методы производится из консольного приложения первого задания. Результат вызова метода предоставлен на скриншоте ниже.
+
 ### Результат работы программы:
 Задание 1
 
 ![Результат](https://github.com/Skyliice/DigitalDesign_TestTasks/blob/master/Screenshots/ConsoleAppScreenshot1.png)
 Задание 2.
 
-![Результат](https://github.com/Skyliice/ReflectionConsoleApp/blob/master/Images/Screenshot2.PNG)
+![Результат](https://github.com/Skyliice/ReflectionConsoleApp/blob/Задание_ВебСервисы/Images/ScreenshotParallel.PNG)
+Задание 3.
+
+![Результат](https://github.com/Skyliice/ReflectionConsoleApp/blob/Задание_ВебСервисы/Images/ScreenshotWeb.PNG)
